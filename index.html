@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Longevity & Human Performance Directory</title>
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #2c5282;
+            --accent: #38a169;
+            --light: #f7fafc;
+            --border: #e2e8f0;
+            --consensus-high: #c6f6d5;
+            --consensus-med: #fefcbf;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: #2d3748;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 2.5rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        /* Expert Cards */
+        .experts-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .expert-card {
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .expert-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .expert-card h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .expert-card .badge {
+            background: var(--secondary);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: normal;
+        }
+
+        .expert-card p {
+            color: #718096;
+            font-size: 0.95rem;
+        }
+
+        /* Summary Section */
+        .summary-section {
+            background: linear-gradient(135deg, #f6f9fc 0%, #edf2f7 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .summary-section h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .consensus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .consensus-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+        }
+
+        .consensus-card h4 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .consensus-card ul {
+            list-style: none;
+        }
+
+        .consensus-card li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .consensus-card li:last-child {
+            border-bottom: none;
+        }
+
+        .check {
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* Category Navigation */
+        .category-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            justify-content: center;
+        }
+
+        .category-nav a {
+            background: var(--light);
+            color: var(--secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+
+        .category-nav a:hover {
+            background: var(--secondary);
+            color: white;
+        }
+
+        /* Main Table */
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            position: sticky;
+            top: 0;
+        }
+
+        th:first-child {
+            min-width: 200px;
+        }
+
+        td {
+            padding: 0.875rem 1rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        .category-row {
+            background: linear-gradient(90deg, var(--secondary) 0%, #4a5568 100%);
+        }
+
+        .category-row td {
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0.75rem 1rem;
+            border-bottom: none;
+        }
+
+        .technique-name {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .dosage {
+            font-size: 0.85rem;
+            color: #4a5568;
+            background: #edf2f7;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            display: inline-block;
+            margin-top: 0.25rem;
+        }
+
+        .not-mentioned {
+            color: #a0aec0;
+            font-style: italic;
+        }
+
+        .consensus-high {
+            background: var(--consensus-high);
+        }
+
+        .timing {
+            font-size: 0.8rem;
+            color: #718096;
+            margin-top: 0.25rem;
+        }
+
+        /* Legend */
+        .legend {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            padding: 1rem;
+            background: var(--light);
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .legend-color.high { background: var(--consensus-high); }
+        .legend-color.med { background: var(--consensus-med); }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--light);
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            header {
+                padding: 1.5rem;
+            }
+
+            header h1 {
+                font-size: 1.75rem;
+            }
+
+            .content {
+                padding: 1rem;
+            }
+
+            th, td {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Longevity & Human Performance Directory</h1>
+            <p>A comprehensive comparison of techniques recommended by leading longevity experts</p>
+        </header>
+
+        <div class="content">
+            <!-- Expert Profiles -->
+            <section class="experts-section">
+                <div class="expert-card">
+                    <h3>Andrew Huberman <span class="badge">Neuroscientist</span></h3>
+                    <p>Stanford professor focusing on brain development, neural plasticity, and science-based tools for everyday life. Host of the Huberman Lab podcast.</p>
+                </div>
+                <div class="expert-card">
+                    <h3>Bryan Johnson <span class="badge">Entrepreneur</span></h3>
+                    <p>Tech entrepreneur running "Project Blueprint" - a rigorous anti-aging experiment with 100+ biomarkers tracked. Claims to have reversed his biological age by 5+ years.</p>
+                </div>
+            </section>
+
+            <!-- Consensus Summary -->
+            <section class="summary-section" id="consensus">
+                <h2>Where The Experts Agree</h2>
+                <div class="consensus-grid">
+                    <div class="consensus-card">
+                        <h4>High Consensus Supplements</h4>
+                        <ul>
+                            <li><span class="check">&#10003;</span> Omega-3 (EPA/DHA) - Both recommend daily</li>
+                            <li><span class="check">&#10003;</span> Vitamin D3 - Both take 5,000+ IU</li>
+                            <li><span class="check">&#10003;</span> Creatine - Both take 5g daily</li>
+                            <li><span class="check">&#10003;</span> Collagen Peptides - Both use for skin/joints</li>
+                            <li><span class="check">&#10003;</span> Garlic Extract - Both for cardiovascular health</li>
+                            <li><span class="check">&#10003;</span> NAD+ Precursors (NMN/NR) - Both for energy</li>
+                        </ul>
+                    </div>
+                    <div class="consensus-card">
+                        <h4>High Consensus Behaviors</h4>
+                        <ul>
+                            <li><span class="check">&#10003;</span> Morning Light Exposure - Both within 1hr of waking</li>
+                            <li><span class="check">&#10003;</span> Consistent Sleep Schedule - Both emphasize this</li>
+                            <li><span class="check">&#10003;</span> Regular Exercise - Both do 1hr+ daily</li>
+                            <li><span class="check">&#10003;</span> No Alcohol - Both avoid or limit</li>
+                            <li><span class="check">&#10003;</span> Blood Work Monitoring - Both test regularly</li>
+                            <li><span class="check">&#10003;</span> Screen Avoidance Before Bed</li>
+                        </ul>
+                    </div>
+                    <div class="consensus-card">
+                        <h4>Key Differences</h4>
+                        <ul>
+                            <li>Bryan: No caffeine at all | Huberman: Delays 90-120min</li>
+                            <li>Bryan: 8:30pm bedtime | Huberman: More flexible</li>
+                            <li>Bryan: Time-restricted eating (6am-11am) | Huberman: Less strict</li>
+                            <li>Bryan: Prescription drugs (Metformin, etc) | Huberman: Supplements only</li>
+                            <li>Bryan: 100+ pills daily | Huberman: ~20-30 supplements</li>
+                        </ul>
+                    </div>
+                    <div class="consensus-card">
+                        <h4>Starter Recommendations</h4>
+                        <ul>
+                            <li><span class="check">&#10003;</span> Vitamin D3 + K2 (especially if low sun)</li>
+                            <li><span class="check">&#10003;</span> Omega-3 Fatty Acids (2g+ EPA/DHA)</li>
+                            <li><span class="check">&#10003;</span> Magnesium (L-Threonate for sleep)</li>
+                            <li><span class="check">&#10003;</span> Morning sunlight (10-15 min)</li>
+                            <li><span class="check">&#10003;</span> Consistent sleep/wake times</li>
+                            <li><span class="check">&#10003;</span> Regular exercise routine</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Category Navigation -->
+            <nav class="category-nav">
+                <a href="#sleep">Sleep</a>
+                <a href="#supplements">Supplements</a>
+                <a href="#exercise">Exercise</a>
+                <a href="#diet">Diet & Fasting</a>
+                <a href="#light">Light Exposure</a>
+                <a href="#cold">Cold/Heat</a>
+                <a href="#cognitive">Cognitive</a>
+                <a href="#hormones">Hormones</a>
+            </nav>
+
+            <!-- Legend -->
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color high"></div>
+                    <span>Both experts recommend</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color med"></div>
+                    <span>One expert strongly recommends</span>
+                </div>
+            </div>
+
+            <!-- Main Comparison Table -->
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Technique / Supplement</th>
+                            <th>Andrew Huberman</th>
+                            <th>Bryan Johnson</th>
+                            <th>Primary Benefit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- SLEEP SECTION -->
+                        <tr class="category-row" id="sleep">
+                            <td colspan="4">SLEEP OPTIMIZATION</td>
+                        </tr>
+                        <tr class="consensus-high">
+                            <td class="technique-name">Consistent Sleep Schedule</td>
+                            <td>Same time daily<div class="timing">Anchor circadian rhythm</div></td>
+                            <td>8:30pm bed, 5:00am wake<div class="timing">Every single day</div></td>
+                            <td>Circadian rhythm, recovery</td>
+                        </tr>
+                        <tr class="consensus-high">
+                            <td class="technique-name">Magnesium L-Threonate</td>
+                            <td><span class="dosage">140mg</span><div class="timing">30-60 min before bed</div></td>
+                            <td><span class="dosage">144mg elemental Mg</span><div class="timing">Evening</div></td>
+                            <td>Sleep depth, cognitive function</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">L-Theanine</td>
+                            <td><span class="dosage">100-300mg</span><div class="timing">Before bed (not for vivid dreamers)</div></td>
+                            <td><span class="not-mentioned">Not in core protocol</span></td>
+                            <td>Relaxation, sleep onset</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Apigenin</td>
+                            <td><span class="dosage">50mg</span><div class="timing">30-60 min before bed</div></td>
+                            <td><span class="not-mentioned">Not in core protocol</span></td>
+                            <td>Anxiety reduction, sleep quality</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Glycine + GABA</td>
+                            <td><span class="dosage">2g Glycine + 100mg GABA</span><div class="timing">Every 3-4 nights</div></td>
+                            <td><span class="dosage">Glycine in protocol</span></td>
+                            <td>Deep sleep enhancement</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Myo-Inositol</td>
+                            <td><span class="dosage">900mg</span><div class="timing">Occasional use</div></td>
+                            <td><span class="not-mentioned">Not mentioned</span></td>
+                            <td>Sleep quality, anxiety</td>
+                        </tr>
+                        <tr class="consensus-high">
+                            <td class="technique-name">No Alcohol</td>
+                            <td>Limits alcohol, notes sleep impact</td>
+                            <td>Zero alcohol<div class="timing">80% deep sleep reduction</div></td>
+                            <td>Deep sleep preservation</td>
+                        </tr>
+                        <tr class="consensus-high">
+                            <td class="technique-name">No Screens Before Bed</td>
+                            <td>Dim lights after sunset<div class="timing">Avoid overhead lights</div></td>
+                            <td>Wind-down 30-60 min<div class="timing">No devices</div></td>
+                            <td>Melatonin production</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Sleep Tracking</td>
+                            <td>Uses various trackers</td>
+                            <td>WHOOP band<div class="timing">8 months 100% sleep score</div></td>
+                            <td>Data-driven optimization</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Sleep Alone</td>
+                            <td><span class="not-mentioned">Not emphasized</span></td>
+                            <td>Recommends solo sleeping<div class="timing">For optimal conditions</div></td>
+                            <td>Uninterrupted sleep</td>
+                        </tr>
+
+                        <!-- SUPPLEMENTS SECTION -->
+                        <tr class="category-row" id="supplements">
+                            <td colspan="4">CORE SUPPLEMENTS</td>
+                        </tr>
+                        <tr class="consensus-high">
+                            <td class="technique-name">Omega-3 (EPA/DHA)</td>
+                            <td><span class="dosage">2-3g EPA daily</span><div class="timing">With meals</div></td>
+                            <td><span class="dosage">800mg (300 EPA/500 DHA)</span><div class="timing">Vegan microalgae source</div></td>
+                            <td>Brain, heart, inflammation</td>
+                        </tr>
+                        <tr class="consensus-high">
+                            <td class="technique-name">Vitamin D3</td>
+                            <td><span class="dosage">5,000-10,000 IU</span><div class="timing">Morning with fat</div></td>
+                            <td><span class="dosage">2,000 IU</span><div class="timing">Daily in stack</div></td>
+                            <td>Immune, bones, mood</td>
+                        </tr>
+                        <tr class="consensus-high">
+                            <td class="technique-name">Creatine Monohydrate</td>
+                            <td><span class="dosage">5g daily</span><div class="timing">Any time</div></td>
+                            <td><span class="dosage">2.5g daily</span><div class="timing">In morning stack</div></td>
+                            <td>Muscle, brain, ATP production</td>
+                        </tr>
+                        <tr class="consensus-high">
+                            <td class="technique-name">NMN (NAD+ Precursor)</td>
+                            <td><span class="dosage">1-2g daily</span><div class="timing">Morning, 30min-2hr before food</div></td>
+                            <td><span class="dosage">In protocol</span><div class="timing">For cellular repair</div></td>
+                            <td>Energy, cellular health, longevity</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">NR (Nicotinamide Riboside)</td>
+                            <td><span class="dosage">500mg daily</span><div class="timing">Morning with NMN</div></td>
+                            <td><span class="not-mentioned">Prefers NMN</span></td>
+                            <td>NAD+ elevation</td>
+                        </tr>
+                        <tr class="consensus-high">
+                            <td class="technique-name">Collagen Peptides</td>
+                            <td>Uses collagen supplements</td>
+                            <td><span class="dosage">20-30g daily</span><div class="timing">With Vitamin C</div></td>
+                            <td>Skin, joints, connective tissue</td>
+                        </tr>
+                        <tr class="consensus-high">
+                            <td class="technique-name">Garlic Extract</td>
+                            <td><span class="dosage">600mg</span><div class="timing">When eating (offsets TMAO)</div></td>
+                            <td><span class="dosage">1.2g aged garlic</span><div class="timing">Daily for circulation</div></td>
+                            <td>Cardiovascular, detox</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">NAC (N-Acetyl Cysteine)</td>
+                            <td>Uses occasionally</td>
+                            <td><span class="dosage">1,800mg</span><div class="timing">Daily</div></td>
+                            <td>Antioxidant, liver, respiratory</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Curcumin / Turmeric</td>
+                            <td><span class="not-mentioned">Not in daily stack</span></td>
+                            <td><span class="dosage">2g turmeric daily</span><div class="timing">Split between doses</div></td>
+                            <td>Anti-inflammatory</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Resveratrol</td>
+                            <td><span class="not-mentioned">Not emphasized</span></td>
+                            <td><span class="dosage">In protocol</span><div class="timing">Aging pathways</div></td>
+                            <td>Sirtuin activation, longevity</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Spermidine</td>
+                            <td><span class="not-mentioned">Not in daily stack</span></td>
+                            <td><span class="dosage">In protocol</span><div class="timing">Autophagy support</div></td>
+                            <td>Cellular renewal, autophagy</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Fisetin</td>
+                            <td><span class="not-mentioned">Not emphasized</span></td>
+                            <td><span class="dosage">In protocol</span><div class="timing">Senolytic</div></td>
+                            <td>Clears senescent cells</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">L-Glutamine</td>
+                            <td><span class="dosage">1g daily</span></td>
+                            <td><span class="not-mentioned">Not emphasized</span></td>
+                            <td>Gut health, recovery</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Grapeseed Extract</td>
+                            <td><span class="dosage">400-800mg</span></td>
+                            <td><span class="not-mentioned">Not in core protocol</span></td>
+                            <td>Antioxidant, circulation</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">CoQ10</td>
+                            <td>Uses for cardiovascular</td>
+                            <td><span class="dosage">In protocol</span></td>
+                            <td>Heart, mitochondria</td>
+                        </tr>
+
+                        <!-- EXERCISE SECTION -->
+                        <tr class="category-row" id="exercise">
+                            <td colspan="4">EXERCISE & MOVEMENT</td>
+                        </tr>
+                        <tr class="consensus-high">
+                            <td class="technique-name">Daily Exercise</td>
+                            <td>~1 hour daily<div class="timing">Cardio + resistance</div></td>
+                            <td>45-90 min daily<div class="timing">5:30am start</div></td>
+                            <td>Overall health, longevity</td>
+                        </tr>
+                        <tr class="consensus-high">
+                            <td class="technique-name">Resistance Training</td>
+                            <td>3-4x per week<div class="timing">Progressive overload</div></td>
+                            <td>Part of daily routine<div class="timing">Focus on posture muscles</div></td>
+                            <td>Muscle mass, bone density</td>
+                        </tr>
+                        <tr class="consensus-high">
+                            <td class="technique-name">Cardiovascular Exercise</td>
+                            <td>Zone 2 + occasional HIIT</td>
+                            <td>4hr 37min moderate/week<div class="timing">+ 1hr 25min vigorous</div></td>
+                            <td>Heart health, endurance</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Morning Exercise</td>
+                            <td>Preferred timing<div class="timing">After sunlight exposure</div></td>
+                            <td>5:30am workout<div class="timing">Every day</div></td>
+                            <td>Circadian alignment, energy</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">HIIT</td>
+                            <td>1-2x per week</td>
+                            <td><span class="dosage">10 min daily</span><div class="timing">Part of workout</div></td>
+                            <td>Metabolic health, VO2 max</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Posture Training</td>
+                            <td>Emphasizes proper form</td>
+                            <td>Significant portion of workout<div class="timing">Major focus area</div></td>
+                            <td>Spinal health, longevity</td>
+                        </tr>
+
+                        <!-- DIET & FASTING -->
+                        <tr class="category-row" id="diet">
+                            <td colspan="4">DIET & FASTING</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Time-Restricted Eating</td>
+                            <td>Generally supports<div class="timing">Less strict protocol</div></td>
+                            <td><span class="dosage">5-hour window (6am-11am)</span><div class="timing">19 hours fasting daily</div></td>
+                            <td>Autophagy, metabolic health</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Early Last Meal</td>
+                            <td>Avoid eating close to bed</td>
+                            <td>Last meal at 11am<div class="timing">Optimal for his sleep</div></td>
+                            <td>Sleep quality, digestion</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Calorie Control</td>
+                            <td><span class="not-mentioned">Not strict counting</span></td>
+                            <td><span class="dosage">2,250 calories/day</span><div class="timing">Precisely measured</div></td>
+                            <td>Longevity, weight management</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Delayed Caffeine</td>
+                            <td><span class="dosage">Wait 90-120 min</span><div class="timing">After waking</div></td>
+                            <td>Zero caffeine<div class="timing">Completely eliminated</div></td>
+                            <td>Cortisol optimization</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Stop Fluids Before Bed</td>
+                            <td>General recommendation</td>
+                            <td>No fluids after 4pm<div class="timing">Prevents sleep interruption</div></td>
+                            <td>Uninterrupted sleep</td>
+                        </tr>
+
+                        <!-- LIGHT EXPOSURE -->
+                        <tr class="category-row" id="light">
+                            <td colspan="4">LIGHT EXPOSURE</td>
+                        </tr>
+                        <tr class="consensus-high">
+                            <td class="technique-name">Morning Sunlight</td>
+                            <td><span class="dosage">10-15 min</span><div class="timing">Within 1 hour of waking, no sunglasses</div></td>
+                            <td><span class="dosage">10,000 lux light</span><div class="timing">Immediately at 5am wake</div></td>
+                            <td>Circadian rhythm, cortisol</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Afternoon Sunlight</td>
+                            <td><span class="dosage">10-20 min</span><div class="timing">Before sunset</div></td>
+                            <td><span class="not-mentioned">Not emphasized</span></td>
+                            <td>Circadian calibration</td>
+                        </tr>
+                        <tr class="consensus-high">
+                            <td class="technique-name">Dim Evening Lights</td>
+                            <td>Avoid overhead lights<div class="timing">Use low-positioned lamps</div></td>
+                            <td>Part of wind-down routine<div class="timing">30-60 min before bed</div></td>
+                            <td>Melatonin production</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Red Light Therapy</td>
+                            <td>Uses for various benefits</td>
+                            <td>Part of protocol<div class="timing">Skin and recovery</div></td>
+                            <td>Skin, mitochondria, recovery</td>
+                        </tr>
+
+                        <!-- COLD/HEAT -->
+                        <tr class="category-row" id="cold">
+                            <td colspan="4">TEMPERATURE EXPOSURE</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Cold Exposure</td>
+                            <td><span class="dosage">1-3 min at 40-55°F</span><div class="timing">11 min total/week, 3-4 sessions</div></td>
+                            <td>Uses cold exposure<div class="timing">Part of protocol</div></td>
+                            <td>Dopamine (+250%), alertness, brown fat</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Cold Showers</td>
+                            <td>Morning recommended<div class="timing">Start 30 sec, build to 3 min</div></td>
+                            <td>Part of routine</td>
+                            <td>Alertness, mood, resilience</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Sauna</td>
+                            <td>Recommends for health<div class="timing">Not strict protocol</div></td>
+                            <td>Uses heat exposure</td>
+                            <td>Cardiovascular, heat shock proteins</td>
+                        </tr>
+
+                        <!-- COGNITIVE -->
+                        <tr class="category-row" id="cognitive">
+                            <td colspan="4">COGNITIVE ENHANCEMENT</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Alpha-GPC</td>
+                            <td><span class="dosage">300-600mg</span><div class="timing">Before cognitive work</div></td>
+                            <td><span class="not-mentioned">Not in core protocol</span></td>
+                            <td>Focus, acetylcholine</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">L-Tyrosine</td>
+                            <td><span class="dosage">500mg</span><div class="timing">For deadline focus</div></td>
+                            <td><span class="not-mentioned">Not emphasized</span></td>
+                            <td>Focus, dopamine precursor</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Meditation/Breathwork</td>
+                            <td>Various protocols<div class="timing">Box breathing, etc.</div></td>
+                            <td><span class="dosage">5 min morning</span><div class="timing">Plus evening practice</div></td>
+                            <td>Stress reduction, focus</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">NSDR/Yoga Nidra</td>
+                            <td><span class="dosage">10-30 min</span><div class="timing">Afternoon for recovery</div></td>
+                            <td><span class="not-mentioned">Not emphasized</span></td>
+                            <td>Mental restoration, learning</td>
+                        </tr>
+
+                        <!-- HORMONES -->
+                        <tr class="category-row" id="hormones">
+                            <td colspan="4">HORMONE OPTIMIZATION</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Tongkat Ali</td>
+                            <td><span class="dosage">400mg daily</span><div class="timing">Years of continuous use</div></td>
+                            <td><span class="not-mentioned">Not in protocol</span></td>
+                            <td>Testosterone, libido</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Fadogia Agrestis</td>
+                            <td><span class="dosage">600mg</span><div class="timing">Cycled (3 weeks on, 1 off)</div></td>
+                            <td><span class="not-mentioned">Not in protocol</span></td>
+                            <td>Luteinizing hormone, testosterone</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Zinc</td>
+                            <td><span class="dosage">15mg daily</span></td>
+                            <td><span class="dosage">15mg in stack</span></td>
+                            <td>Testosterone, immune</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Boron</td>
+                            <td><span class="dosage">2-4mg daily</span></td>
+                            <td><span class="not-mentioned">Not emphasized</span></td>
+                            <td>Free testosterone, bones</td>
+                        </tr>
+                        <tr class="consensus-high">
+                            <td class="technique-name">Regular Blood Work</td>
+                            <td>2x per year<div class="timing">Testosterone panels, lipids, etc.</div></td>
+                            <td>Continuous monitoring<div class="timing">100+ biomarkers</div></td>
+                            <td>Data-driven adjustments</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Ashwagandha</td>
+                            <td><span class="dosage">300-600mg</span><div class="timing">Cycled for stress/cortisol</div></td>
+                            <td><span class="not-mentioned">Not in core protocol</span></td>
+                            <td>Stress, cortisol, testosterone</td>
+                        </tr>
+
+                        <!-- PRESCRIPTION (Bryan Only) -->
+                        <tr class="category-row">
+                            <td colspan="4">PRESCRIPTION INTERVENTIONS (Bryan Johnson Only)</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Metformin</td>
+                            <td><span class="not-mentioned">Supplements only approach</span></td>
+                            <td><span class="dosage">500mg</span><div class="timing">Blood sugar, longevity</div></td>
+                            <td>Insulin sensitivity, AMPK</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Acarbose</td>
+                            <td><span class="not-mentioned">Not used</span></td>
+                            <td><span class="dosage">In protocol</span><div class="timing">Glucose management</div></td>
+                            <td>Blood sugar control</td>
+                        </tr>
+                        <tr>
+                            <td class="technique-name">Rapamycin</td>
+                            <td><span class="not-mentioned">Not used</span></td>
+                            <td>Periodic use<div class="timing">mTOR inhibition</div></td>
+                            <td>Longevity pathways</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <footer>
+            <p><strong>Disclaimer:</strong> This information is for educational purposes only. Consult a healthcare professional before starting any supplement or lifestyle protocol.</p>
+            <p style="margin-top: 1rem;">
+                Sources:
+                <a href="https://www.hubermanlab.com" target="_blank">Huberman Lab</a> |
+                <a href="https://protocol.bryanjohnson.com" target="_blank">Blueprint Protocol</a>
+            </p>
+            <p style="margin-top: 0.5rem; font-size: 0.8rem;">Last updated: January 2026</p>
+        </footer>
+    </div>
+</body>
+</html>
